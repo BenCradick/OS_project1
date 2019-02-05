@@ -5,6 +5,8 @@
 #include <errno.h>
 #include <limits.h>
 
+#include "stack.h"
+
 int main(int argc, char **argv) {
     char *inputFile;
     char *outputFile;
@@ -13,10 +15,13 @@ int main(int argc, char **argv) {
 
     char line[LINE_MAX];
 
+    pid_t child_pid;
+
     inputFile = "input.dat";
     outputFile = "output.dat";
 
-    FILE *inputStream ;
+    FILE *inputStream;
+    FILE *outputStream;
 
     opterr = 0;
 
@@ -74,9 +79,29 @@ int main(int argc, char **argv) {
         fclose(inputStream);
         return 2;
     }
-    
+
+    childCount = atoi(line);
 
 
+    for(int i = 0; i < childCount; i++){
+        if(fork() == 0){
+            fgets(line, LINE_MAX, inputStream);
+            Stack* stack = createStack(stack,atoi(line));
+
+            push(stack, 8);
+
+
+            printf("%d\n", stack->isEmptyPtr);
+
+            exit(0);
+        }
+        else{
+            child_pid = wait(0);
+            printf("Parent = %d\n", getpid());
+            printf("Child = %d\n", child_pid);
+
+        }
+    }
 
 
 
