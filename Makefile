@@ -1,0 +1,14 @@
+CC = gcc
+CFLAGS = -std=c99
+TARGET = cradick.1
+OBJS = main.o stack.o
+$(TARGET): $(OBJS)
+	$(CC) -o $(TARGET) $(OBJS)
+main.o: main.c
+	$(CC) $(CCFLAGS) -c main.c
+stack.o: stack.c
+	$(CC) $(CCFLAGS) -c stack.c
+clean:
+	/bin/rm -f *.o
+clean_all:
+	/bin/rm -f *.o $(TARGET)

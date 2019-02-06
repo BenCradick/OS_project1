@@ -1,3 +1,7 @@
+// Ben Cradick
+// 2/6/19
+// cs4760
+
 #include <stdio.h>
 #include <unistd.h>
 #include <ctype.h>
@@ -109,7 +113,9 @@ int main(int argc, char **argv) {
                 token = strtok(NULL, " ");
             }
 
-            fprintf(outputStream, "%d: ", getpid());
+            check_fprintf(
+                fprintf(outputStream, "%d: ", getpid())
+                );
 
             while(stack.size != -1){
                 //function across 3 lines for readability.
@@ -132,7 +138,7 @@ int main(int argc, char **argv) {
 
     // readability.
     check_fprintf(
-            fprintf(outputStream, "All pids used were:   ")
+            fprintf(outputStream, "All children used:   ")
     );
 
 

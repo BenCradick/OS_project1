@@ -1,6 +1,6 @@
-//
-// Created by Ben Cradick on 2019-02-05.
-//
+// Ben Cradick
+// 2/6/19
+// cs4760
 
 #ifndef CRADICK_1_STACK_H
 #define CRADICK_1_STACK_H

@@ -1,6 +1,6 @@
-//
-// Created by Ben Cradick on 2019-02-05.
-//
+// Ben Cradick
+// 2/6/19
+// cs4760
 
 #include "stack.h"
 #include <stdlib.h>
@@ -8,7 +8,7 @@
 #include <stdio.h>
 #include <unistd.h>
 
-
+//function prototypes
 int isFull(Stack*);
 int isEmpty(Stack*);
 void push(Stack*, int);
@@ -41,7 +41,6 @@ int isEmpty(Stack* stack){
 }
 
 void push(Stack* stack, int number){
-    printf("%d \n", number);
     if(isFull(stack)){
         fprintf(stderr, "process %d : Attempt to push element into full stack.\n", getpid());
         printf("size: %d capacity: %d to be pushed: %d \n", stack->size, stack->capacity, number);
@@ -57,6 +56,5 @@ int pop(Stack* stack){
         fprintf(stderr,"process %d : Attempt to pop element off empty stack.\n", getpid());
         return INT_MIN;
     }
-    printf("%d \n", stack->size);
     return stack->array[stack->size--];
 }
