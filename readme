@@ -1,0 +1,30 @@
+#OS Project 1
+##Ben Cradick
+
+### How to run
+        $ cd your/directory
+        $ make
+        $ ./cradick.1
+
+You will need an input file at a minimum formatted like so.
+Firt line is the number of of rows to be reversed. 1/2 - 1 rows in file.
+Even number rows: number of elements in the following row.
+Odd numbered rows (excluding first): Numbers to be reversed.
+
+
+### Known Issues
+Improperly formatted input will not be properly hanled. Rows that are too short may cuase the stack to fill up when it shouldn't.
+Rows that are too long will fill up the stack and force an errror.
+
+The code is not pretty.
+
+###Encountered problems 
+Getting the stack to function properly was headache. I ended up using function pointers in a structure to make it work.
+I couldn't figure out how to have the stack structure initialize itself like a constructor would in an OOP.
+I need to somehow move the createStack function inside the rest of the stack structure so that you don't have to pass a reference pointer to all of the functions.
+Also it would be great if the  stack could hold a reference to itself for when it needs to operate on itself.
+
+I was fairly confused as to why gcc wasn't importing the proper header files on hoare. I eventually realized to make the CFLAGS in my make file --std=gnu99 instead of --std=C99.
+
+Difference between commits can best be viewed here https://github.com/BenCradick/OS_project1/commits/0f835d6edeb5f57c3c15c6f56dc395e1b4f44192
+by clicking on the commit hash by the right of the tableviews on the webpage.
