@@ -4,8 +4,13 @@
 #include <stdlib.h>
 #include <errno.h>
 #include <limits.h>
+#include <string.h>
 
 #include "stack.h"
+
+//Note: Many comments are to tell myself what the hell I was thinking, later.
+
+void check_fprintf(int);
 
 int main(int argc, char **argv) {
     char *inputFile;
@@ -13,7 +18,10 @@ int main(int argc, char **argv) {
     int c; // used to hold integer return value of getopt
     int childCount; // number of children to be generated, also first line in inputFile.
 
+    // Written when 8GB RAM was standard, on a project where efficiency was not a requirement.
+
     char line[LINE_MAX];
+
 
     pid_t child_pid;
 
@@ -68,7 +76,7 @@ int main(int argc, char **argv) {
 
 
     inputStream = fopen(inputFile, "r");
-
+    outputStream = fopen(outputFile, "w+");
     if(inputStream == NULL){
         perror(inputFile);
         return -1;
@@ -82,28 +90,68 @@ int main(int argc, char **argv) {
 
     childCount = atoi(line);
 
+    int *pids = malloc(sizeof(int) * childCount);
 
     for(int i = 0; i < childCount; i++){
+        fgets(line, LINE_MAX, inputStream);
         if(fork() == 0){
-            fgets(line, LINE_MAX, inputStream);
-            Stack* stack = createStack(stack,atoi(line));
 
-            push(stack, 8);
+            Stack stack = createStack(&stack, atoi(line));
 
+            //sizeof line provides the appropriate string length.
+            fgets(line, sizeof(line), inputStream);
 
-            printf("%d\n", stack->isEmptyPtr);
+            char* token = strtok(line, " ");
+
+            while(token != NULL){
+
+                stack.push(&stack, atoi(token)); // TODO: type check token before moving to atoi.
+                token = strtok(NULL, " ");
+            }
+
+            fprintf(outputStream, "%d: ", getpid());
+
+            while(stack.size != -1){
+                //function across 3 lines for readability.
+                check_fprintf(
+                        fprintf(outputStream, "%d ", stack.pop(&stack))
+                        );
+            }
+
+            check_fprintf(fprintf(outputStream, "\n"));
 
             exit(0);
         }
         else{
-            child_pid = wait(0);
-            printf("Parent = %d\n", getpid());
-            printf("Child = %d\n", child_pid);
+            //sneak the pids that were used in so they can be displayed later
+            pids[i] =  wait(0);
 
         }
+        fgets(line, LINE_MAX, inputStream);
     }
 
+    // readability.
+    check_fprintf(
+            fprintf(outputStream, "All pids used were:   ")
+    );
 
 
+    for(int x = 0; x < childCount; x++){
+        //for readability
+
+       check_fprintf(
+               fprintf(outputStream, "%d ", pids[x])
+               );
+    }
+    check_fprintf(
+            fprintf(outputStream, "\n")
+            );
+    fclose(outputStream);
     return (0);
+}
+
+void check_fprintf(int toBeChecked){
+    if(toBeChecked < 0){
+        perror("Failed to write to stream output: ");
+    }
 }

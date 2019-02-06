@@ -6,10 +6,10 @@
 #define CRADICK_1_STACK_H
 
 
-struct Stack_t;
+struct Stack;
 
-//int (*isFullPtr)();
-//int (*isEmptyPtr)();
+//Did this because I went down a rabbit hole, no real need but now I know how.
+//Need to have the struct reference itself so that I don't need to pass the struct to itself every time.
 typedef struct Stack {
     int size;
     int capacity;
@@ -18,18 +18,15 @@ typedef struct Stack {
     int isFullPtr;
     int isEmptyPtr;
 
-    int(*push)(struct Stack*, int);
+    void(*push)(struct Stack*, int);
     int(*pop)(struct Stack*);
     int(*isEmpty)(struct Stack*);
     int(*isFull)(struct Stack*);
 
+
 }Stack;
 
 
-Stack* createStack(Stack*, int);
-//int isFull(Stack*);
-//int isEmpty(Stack*);
-//void push(Stack*, int);
-int pop(Stack*);
+Stack createStack(Stack*, int);
 
 #endif //CRADICK_1_STACK_H
