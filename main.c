@@ -10,10 +10,10 @@
 #include <limits.h>
 #include <string.h>
 #include <sys/types.h>
-
+#include <sys/wait.h>
 #include "stack.h"
 
-#define LINE_MAX 2048
+
 
 //Note: Many comments are to tell myself what the hell I was thinking, later.
 

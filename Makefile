@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -std=c99
+CFLAGS = -std=gnu99
 TARGET = cradick.1
 OBJS = main.o stack.o
 $(TARGET): $(OBJS)
